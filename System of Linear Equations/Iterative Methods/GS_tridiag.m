@@ -1,7 +1,7 @@
 % Metoda Gauss-Siedel pentru matrice tridiagonala
 
 function [x iter] = GS_tridiag(A, B, C, b, x0, tol, maxiter)
-	% Rezolvarea sistemului Ax=b folosind metoda Jacobi
+	% Rezolvarea sistemului Ax=b folosind metoda Gauss_Siedel
 	% Intrari:
   %   A - elementele de pe diagonala de deasupra B
 	%		B - elementele de pe diagonala principala
