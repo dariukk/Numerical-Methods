@@ -25,7 +25,7 @@ function [x iter] = GS_tridiag(A, B, C, b, x0, tol, maxiter)
 			x(i) = (b(i) - suma) / B(i);
 		endfor
     
-    x(n) = (b(n) - C(n-1)*x0(n-1,1)) /B(n);
+    x(n) = (b(n) - C(n-1)*x(n-1,1)) /B(n);
 		
 		if norm(x - x0) < tol
 			return;
