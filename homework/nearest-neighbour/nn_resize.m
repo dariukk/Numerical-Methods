@@ -1,4 +1,3 @@
-
 function R = nn_resize(I, p, q)
     % =========================================================================
     % Upscaling de imagine folosind algoritmul de interpolare nearest-neighbour
@@ -6,7 +5,7 @@ function R = nn_resize(I, p, q)
     % =========================================================================
     [m n nr_colors] = size(I);
 
-    % convertește imaginea de intrare la alb-negru daca este cazul
+    % converte?te imaginea de intrare la alb-negru daca este cazul
     if nr_colors > 1
         R = -1;
         return
@@ -27,8 +26,8 @@ function R = nn_resize(I, p, q)
     % Obs: daca se lucreaza cu indici in intervalul [0, n - 1], ultimul
     % pixel al imaginii se va deplasa de la (m - 1, n - 1) la (p, q).
     % s_x nu va fi q ./ n
-    s_x = q ./ (n-1);
-    s_y = p ./ (m-1);
+    s_x = (q-1) ./ (n-1);
+    s_y = (p-1) ./ (m-1);
 
     % TODO: defineste matricea de transformare pentru redimensionare
     trans_matrix = [s_x, 0; 0 s_y];
