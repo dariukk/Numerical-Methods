@@ -1,4 +1,3 @@
-
 function R = bilinear_resize(I, p, q)
     % =========================================================================
     % Upscaling de imagine folosind algoritmul de interpolare biliniara
@@ -28,14 +27,14 @@ function R = bilinear_resize(I, p, q)
     % Obs: daca se lucreaza cu indici in intervalul [0, n - 1], ultimul
     % pixel al imaginii se va deplasa de la (m - 1, n - 1) la (p, q).
     % s_x nu va fi q ./ n
-    s_x = q ./ (n-1);
-    s_y = p ./ (m-1);
+    s_x = (q-1) ./ (n-1);
+    s_y = (p-1) ./ (m-1);
 
     % TODO: defineste matricea de transformare pentru redimensionare
     trans_matrix = [s_x, 0; 0 s_y];
 
     % TODO: calculeaza inversa transformarii
-    inv_matrix = [1/s_x, 0; 0 1/s_y];
+    inv_matrix = inv(trans_matrix);
 
     % parcurge fiecare pixel din imagine
     % foloseste coordonate de la 0 la n - 1
@@ -56,12 +55,19 @@ function R = bilinear_resize(I, p, q)
             x2 = ceil(b(1));
             y2 = ceil(b(2));
             
+            if x1 == x2 && y1 == y2
+              R(y+1, x+1) = I(b(2), b(1));
+              continue;
+            endif
+            
             if x1 == x2
-              x2 =  x2 + 1;
+              R(y+1, x+1) = (y2 - b(2)) / (y2 - y1) * I(y1, x1) + (b(2) - y1) / (y2 - y1) * I(y2, x1);
+              continue;
             endif
             
             if y1 == y2
-              y2 = y2 + 1;
+              R(y+1, x+1) = (x2 - b(1)) / (x2 - x1) * I(y1, x1) + (b(1) - x1) / (x2 - x1) * I(y1, x2);
+              continue;
             endif
             
             % TODO: calculeaza coeficientii de interplare a
@@ -70,7 +76,7 @@ function R = bilinear_resize(I, p, q)
             % TODO: calculeaza valoarea interpolata a pixelului (x, y)
             % Obs: pentru scrierea in imagine, x si y sunt in coordonate de
             % la 0 la n - 1 si trebuie aduse in coordonate de la 1 la n
-            R(y+1,x+1) = a(1) + a(3) * (y+1) + a(2) * (x+1) + a(4) * (y+1) * (x+1);
+            R(y+1, x+1) = a(1) + a(3) * b(2) + a(2) * b(1) + a(4) * b(2) * b(1);
        
         endfor
     endfor
