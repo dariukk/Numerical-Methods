@@ -30,7 +30,7 @@ function a = bilinear_coef(f, x1, y1, x2, y2)
     endfor
     
     % TODO: calculeaza coeficientii
-    [Q R b] = householder(A, b);
-    a = SST(R, b);
+    
+    a = A \ b;
 
 endfunction
