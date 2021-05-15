@@ -5,6 +5,8 @@ function R = bicubic_resize(I, p, q)
     % =========================================================================
 
     [m n nr_colors] = size(I);
+    
+    I = cast(I, 'double');
 
     % initializeaza matricea finala
     R = zeros(p, q);
@@ -38,7 +40,7 @@ function R = bicubic_resize(I, p, q)
     inv_matrix = inv(trans_matrix);
 
     % TODO: precalculeaza derivatele
-    [Ix Iy Ixy] = precalc_d(I); 
+    [Ix, Iy, Ixy] = precalc_d(I); 
 
     % parcurge fiecare pixel din imagine
     % foloseste coordonate de la 0 la n - 1
@@ -66,13 +68,14 @@ function R = bicubic_resize(I, p, q)
             % TODO: calculeaza valoarea interpolata a pixelului (x, y)
             % Obs: pentru scrierea in imagine, x si y sunt in coordonate de
             % la 0 la n - 1 si trebuie aduse in coordonate de la 1 la n
-            R(y + 1, x + 1) = [1 b(2) b(2)^2 b(2)^3] * A * [1; b(1); b(1)^2; b(1)^3];
+            R(y + 1, x + 1) = [1 b(2) b(2)^2 b(2)^3] * A' * [1; b(1); b(1)^2; b(1)^3];
 
         endfor
     endfor
 
     % TODO: transforma matricea rezultat in uint8 pentru a fi o imagine valida
     R = uint8(R);
+    
 endfunction
 
 
